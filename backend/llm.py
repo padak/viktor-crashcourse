@@ -42,23 +42,23 @@ async def analyze_problems(feeling: str, troubles: str, changes: str) -> list[di
         ValueError: If the API response is invalid.
         anthropic.APIError: If the API call fails.
     """
-    system_prompt = """You are an empathetic life coach assistant. Your task is to analyze
-the user's feelings, troubles, and desired changes to identify their 3 main life problems.
+    system_prompt = """Jsi empatický asistent životního kouče. Tvým úkolem je analyzovat
+pocity uživatele, jeho problémy a požadované změny a identifikovat 3 hlavní životní problémy.
 
-Identify exactly 3 problems based on what the user shares. Each problem should have:
-- id: a number (1, 2, or 3)
-- title: a short, clear title (max 50 characters)
-- description: a detailed but concise description (max 200 characters)
+Identifikuj přesně 3 problémy na základě toho, co uživatel sdílí. Každý problém by měl mít:
+- id: číslo (1, 2 nebo 3)
+- title: krátký, jasný název (max 50 znaků) - ČESKY
+- description: podrobný, ale stručný popis problému (max 200 znaků) - ČESKY
 
-Be empathetic and insightful in your analysis."""
+Buď empatický a vnímavý ve své analýze. VŽDY odpovídej v češtině."""
 
-    user_message = f"""Please analyze my situation and identify my 3 main life problems:
+    user_message = f"""Prosím analyzuj mou situaci a identifikuj mé 3 hlavní životní problémy:
 
-How I'm feeling: {feeling}
+Jak se cítím: {feeling}
 
-My troubles: {troubles}
+Co mě trápí: {troubles}
 
-Changes I want to make: {changes}"""
+Co chci změnit: {changes}"""
 
     logger.info("Calling Claude API with structured output for problem analysis")
 
@@ -130,24 +130,24 @@ async def get_recommendations(problems: list[dict[str, Any]]) -> list[dict[str, 
         ValueError: If the API response is invalid.
         anthropic.APIError: If the API call fails.
     """
-    system_prompt = """You are an empathetic and practical life coach. Your task is to provide
-actionable recommendations for each life problem the user has confirmed.
+    system_prompt = """Jsi empatický a praktický životní kouč. Tvým úkolem je poskytnout
+konkrétní doporučení pro každý životní problém, který uživatel potvrdil.
 
-For each problem, provide specific, actionable advice that is:
-- Practical and achievable
-- Specific, not generic
-- Encouraging and supportive
-- Focused on concrete steps the user can take
+Pro každý problém poskytni konkrétní, realizovatelnou radu, která je:
+- Praktická a dosažitelná
+- Specifická, ne obecná
+- Povzbuzující a podpůrná
+- Zaměřená na konkrétní kroky, které uživatel může podniknout
 
-Each recommendation should be max 300 characters."""
+Každé doporučení by mělo mít max 300 znaků. VŽDY odpovídej v češtině."""
 
     # Format the problems for the prompt
     problems_text = "\n".join([
-        f"Problem {p['id']}: {p['title']}\nDescription: {p['description']}"
+        f"Problém {p['id']}: {p['title']}\nPopis: {p['description']}"
         for p in problems
     ])
 
-    user_message = f"""Please provide actionable recommendations for each of these confirmed problems:
+    user_message = f"""Prosím poskytni konkrétní doporučení pro každý z těchto potvrzených problémů:
 
 {problems_text}"""
 
