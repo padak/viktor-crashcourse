@@ -58,10 +58,41 @@ Open http://localhost:3000
 
 ## How It Works
 
-1. Answer 3 questions about how you feel
-2. AI identifies 3 main problems based on your answers
-3. Confirm the problems
-4. Get personalized recommendations for each problem
+```mermaid
+flowchart TD
+    subgraph Frontend
+        A[QuestionForm] -->|user submits| B[Loading]
+        B --> C[ProblemsList]
+        C -->|user confirms| D[Loading]
+        D --> E[Recommendations]
+        E -->|reset| A
+    end
+
+    subgraph Backend
+        F[POST /api/analyze]
+        G[POST /api/recommend]
+    end
+
+    subgraph AI
+        H[Claude Sonnet 4.5]
+    end
+
+    B -->|feeling, troubles, changes| F
+    F -->|analyze| H
+    H -->|3 problems| F
+    F -->|problems| C
+
+    D -->|problems| G
+    G -->|recommend| H
+    H -->|advice| G
+    G -->|recommendations| E
+```
+
+### User Flow
+
+1. **QuestionForm** - Answer 3 questions about how you feel
+2. **ProblemsList** - AI identifies 3 main problems, confirm them
+3. **Recommendations** - Get personalized advice for each problem
 
 ## Tech Stack
 

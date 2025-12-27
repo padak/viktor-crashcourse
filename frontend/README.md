@@ -1,42 +1,6 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Application Workflow
-
-```mermaid
-flowchart TD
-    subgraph Frontend["Frontend (Next.js)"]
-        A[QuestionForm] -->|user submits| B[Loading...]
-        B --> C[ProblemsList]
-        C -->|user confirms| D[Loading...]
-        D --> E[Recommendations]
-        E -->|reset| A
-    end
-
-    subgraph Backend["Backend (FastAPI)"]
-        F[POST /api/analyze]
-        G[POST /api/recommend]
-    end
-
-    subgraph Claude["Claude AI"]
-        H[Sonnet 4.5]
-    end
-
-    B -->|POST feeling, troubles, changes| F
-    F -->|analyze| H
-    H -->|3 problems| F
-    F -->|problems[]| C
-
-    D -->|POST problems| G
-    G -->|recommend| H
-    H -->|recommendations| G
-    G -->|recommendations[]| E
-```
-
-### User Flow
-
-1. **QuestionForm** - User answers 3 questions about feelings
-2. **ProblemsList** - AI identifies 3 main problems, user confirms
-3. **Recommendations** - Personalized advice for each problem
+See the main [README.md](../README.md) for project overview and setup instructions.
 
 ## Getting Started
 
